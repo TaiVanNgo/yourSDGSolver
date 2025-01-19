@@ -4,10 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        backgroundColor: "#f1f2f4", // Add your custom color here
+        backgroundColor: "#f1f2f4",
+        textColor: "#374151",
       },
       boxShadow: {
-        "dark-xl": "0 8px 10px rgba(0, 0, 0, 1)", // Darker shadow
+        "dark-xl": "0 8px 10px rgba(0, 0, 0, 1)",
       },
     },
   },

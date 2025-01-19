@@ -1,6 +1,8 @@
 import { Card, Chip } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({
+  id,
   projectType,
   projectName,
   imgSource,
@@ -8,9 +10,19 @@ const ProjectCard = ({
   price,
   sdgNum,
 }) => {
-  console.log("sdg", sdgNum);
+  const navigate = useNavigate();
+
+  const handleClick = (projectId) => {
+    navigate(`${projectId}`);
+  };
+
   return (
-    <Card className="group !relative !h-80 !w-72 cursor-pointer overflow-hidden !rounded-lg !shadow-dark-xl">
+    <Card
+      className="group !relative !h-80 !w-72 cursor-pointer overflow-hidden !rounded-lg !shadow-dark-xl"
+      onClick={() => {
+        handleClick(id);
+      }}
+    >
       <img
         src={imgSource}
         alt=""
@@ -31,9 +43,6 @@ const ProjectCard = ({
             <img src="sdg-logo.png" alt="" className="h-8 w-8" />
             <p className="text-white">{sdgNum}</p>
           </div>
-          {/* <Chip label="4" variant="outlined" className="!text-white"> */}
-          {/* abc */}
-          {/* </Chip> */}
         </div>
       </div>
     </Card>
