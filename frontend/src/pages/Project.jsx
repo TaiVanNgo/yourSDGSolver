@@ -7,6 +7,8 @@ import { default as LocationIcon } from "@mui/icons-material/FmdGoodOutlined";
 import { default as BarChartIcon } from "@mui/icons-material/SignalCellularAltOutlined";
 import { default as EnergySavingsLeafIcon } from "@mui/icons-material/EnergySavingsLeafOutlined";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { GoogleMap } from "../components/GoogleMap";
+import DataTable from "../components/DataTable";
 
 const Project = () => {
   const { projectId } = useParams();
@@ -66,7 +68,7 @@ const Project = () => {
         </div>
 
         <h1 className="mb-2 text-3xl font-bold">{project.title}</h1>
-        <p className="text-textColor mb-4">
+        <p className="mb-4 text-textColor">
           SDG Impact: <span>{project.sdg}</span>
         </p>
 
@@ -91,7 +93,7 @@ const Project = () => {
 
           <div>
             <h2 className="mb-4 text-xl font-bold">Environmental Impact</h2>
-            <p className="text-textColor mb-2">
+            <p className="mb-2 text-textColor">
               {project.environmentalImpact.description}
             </p>
             <h2 className="mb-4 text-xl font-bold">Key Benefits:</h2>
@@ -134,13 +136,24 @@ const Project = () => {
             </p>
           </li>
         </ul>
+        <Divider className="!my-6" />
+
+        <h2 className="mb-2 text-xl font-bold">Project Location</h2>
+
+        <GoogleMap coordinates={project.coordinate} />
+
+        <Divider className="!my-6" />
+
+        <h2 className="mb-2 text-xl font-bold">Project Data</h2>
+
+        <DataTable />
 
         <div className="mt-5 flex items-center justify-between">
           <div>
             <div className="text-3xl font-bold text-green-600">
               {project.price}
             </div>
-            <span className="text-textColor text-sm">per carbon credit</span>
+            <span className="text-sm text-textColor">per carbon credit</span>
           </div>
 
           <Button variant="contained" sx={{ backgroundColor: "black" }}>
