@@ -27,7 +27,6 @@ async function fetchCarbonData(transactionId) {
   }
 }
 
-server -> lay data tu database -> api -> front end -> call api thi tra data ve, lay data tu do de xu ly
 
 // Function to process and submit data to smart contract
 async function submitCarbonData(transactionId) {

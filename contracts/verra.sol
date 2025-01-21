@@ -1,68 +1,36 @@
-// SPDX-License-Identifier: GPL-3.0
-pragma solidity >=0.7.0 <0.9.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-interface VerraCarbonCredit {
-    function checkEligible(address vintageToken) external view returns (bool);
-    function deposit(address tco2, uint256 amount, uint256 maxFee) external returns (uint256);
-    function retire(uint256 amount) external returns (uint256);
-    function retireAndMintCertificate(
-        string calldata retiringEntityString,
-        address beneficiary,
-        string calldata beneficiaryString,
-        string calldata retirementMessage,
-        uint256 amount
-    ) external;
-}
-
-contract CarbonCreditConverter {
-    address public owner;
-    VerraCarbonCredit public verra;
-
-    event CarbonCreditsIssued(address indexed farmer, uint256 credits);
-
-    constructor(address _verraContract) {
-        owner = msg.sender;
-        verra = VerraCarbonCredit(_verraContract);
+contract CarbonCredits {
+    struct CarbonCredit {
+        uint256 carbonAmount;
+        string projectId;
+        uint256 date;
+        address verifiedBy;
+        bool isVerified;
     }
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Not authorized");
-        _;
-    }
+    mapping(address => CarbonCredit[]) public userCredits;
 
-    function convertToCarbonCredits(
-        address tco2,
+    function storeCarbonCredits(
+        address user,
         uint256 carbonAmount,
-        uint256 maxFee
-    ) external returns (uint256) {
-        require(carbonAmount > 0, "Invalid carbon amount");
-        
-        // Check if the carbon asset is eligible for carbon credits
-        require(verra.checkEligible(tco2), "Token not eligible for carbon credits");
+        string memory projectId,
+        uint256 date,
+        address verifiedBy
+    ) public {
+        CarbonCredit memory newCredit = CarbonCredit({
+            carbonAmount: carbonAmount,
+            projectId: projectId,
+            date: date,
+            verifiedBy: verifiedBy,
+            isVerified: false
+        });
 
-        // Deposit the carbon sequestration amount to get carbon credits
-        uint256 credits = verra.deposit(tco2, carbonAmount, maxFee);
-        
-        emit CarbonCreditsIssued(msg.sender, credits);
-
-        return credits;
+        userCredits[user].push(newCredit);
     }
 
-    function retireCredits(
-        string calldata entity,
-        address beneficiary,
-        string calldata message,
-        uint256 amount
-    ) external {
-        require(amount > 0, "Invalid retirement amount");
-
-        // Retire the credits and mint a certificate for the farmer
-        verra.retireAndMintCertificate(entity, beneficiary, "Carbon Offset Beneficiary", message, amount);
+    function verifyCarbonCredit(address user, uint256 index) public {
+        userCredits[user][index].isVerified = true;
     }
-
-    function withdrawFunds() external onlyOwner {
-        payable(owner).transfer(address(this).balance);
-    }
-
-    receive() external payable {}
 }
