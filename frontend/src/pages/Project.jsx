@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { projects } from "../data/data";
-import { Button, Chip, IconButton } from "@mui/material";
+import { Button, Chip, Modal } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { default as LocationIcon } from "@mui/icons-material/FmdGoodOutlined";
@@ -9,12 +9,19 @@ import { default as EnergySavingsLeafIcon } from "@mui/icons-material/EnergySavi
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { GoogleMap } from "../components/GoogleMap";
 import DataTable from "../components/DataTable";
+import { useAccount } from "wagmi";
+import { useState } from "react";
+import InvestProjectModal from "../components/InvestProjectModal";
 
 const Project = () => {
   const { projectId } = useParams();
+  const { isConnected } = useAccount();
+  const navigate = useNavigate();
 
   const project = projects.find((p) => p.id === parseInt(projectId));
-  const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleModalToggle = (status) => setIsModalOpen(status);
 
   if (!project) {
     return <div className="text-xl text-red-700">Project not found!</div>;
@@ -51,8 +58,17 @@ const Project = () => {
     },
   ];
 
+  const handleClick = () => {
+    if (!isConnected) {
+      alert("Please connect the meta mask");
+      return;
+    }
+
+    handleModalToggle(true);
+  };
+
   return (
-    <div className="w-full pb-10">
+    <div className="relative w-full pb-10">
       <Chip
         label="Back"
         variant="outlined"
@@ -60,13 +76,11 @@ const Project = () => {
         className="!absolute !left-4 !top-4 !w-28 !text-white !backdrop-blur"
         onClick={() => navigate("/projects")}
       />
-
       <img
         src={project.image}
         alt=""
         className="mb-4 max-h-80 w-full object-cover"
       />
-
       <div className="px-32">
         <div className="mb-6 flex items-center justify-between">
           <Chip label={project.projectType} />
@@ -165,11 +179,19 @@ const Project = () => {
             <span className="text-sm text-textColor">per carbon credit</span>
           </div>
 
-          <Button variant="contained" sx={{ backgroundColor: "black" }}>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "black" }}
+            onClick={() => handleClick()}
+          >
             Invest in This Project
           </Button>
         </div>
       </div>
+      <InvestProjectModal
+        open={isModalOpen}
+        handleClose={() => handleModalToggle(false)}
+      />
     </div>
   );
 };

@@ -37,6 +37,7 @@ export const projects = [
       infrastructure: "Improving energy infrastructure and grid stability",
     },
     coordinate: "12.372347154404071, 108.83777955092572",
+    walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
     id: 2,
@@ -74,6 +75,7 @@ export const projects = [
       infrastructure: "Strengthening forest monitoring infrastructure",
     },
     coordinate: "-11.736835578908277, -70.61616650391893",
+    walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
     id: 3,
@@ -110,6 +112,7 @@ export const projects = [
       infrastructure: "Modernizing energy grids in rural Yunnan Province",
     },
     coordinate: "35.86420105930839, 104.19771642521893",
+    walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
     id: 4,
@@ -147,6 +150,7 @@ export const projects = [
       infrastructure: "Improving industrial facilities for safer production",
     },
     coordinate: "-17.098778207283498, -43.812541392719346",
+    walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
     id: 5,
@@ -184,6 +188,7 @@ export const projects = [
       infrastructure: "Expanding solar energy grids in Rajasthan",
     },
     coordinate: "20.593668579251084, 78.96321117791021",
+    walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
 ];
 

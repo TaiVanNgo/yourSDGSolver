@@ -1,11 +1,11 @@
 import { useAccount } from "wagmi";
 import { Account } from "./Account";
-import { WalletOptions } from "./WalletOption";
+import { WalletButton } from "./WalletButton";
 
 const ConnectWallet = () => {
   const { isConnected } = useAccount();
   if (isConnected) return <Account />;
 
-  return <WalletOptions />;
+  return <WalletButton />;
 };
 export default ConnectWallet;
