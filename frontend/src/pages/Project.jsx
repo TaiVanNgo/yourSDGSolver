@@ -60,7 +60,7 @@ const Project = () => {
         className="!absolute !left-4 !top-4 !w-28 !text-white !backdrop-blur"
         onClick={() => navigate("/projects")}
       />
-      
+
       <img
         src={project.image}
         alt=""
