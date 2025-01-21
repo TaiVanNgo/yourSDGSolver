@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { projects } from "../data/data";
-import { Button, Chip } from "@mui/material";
+import { Button, Chip, IconButton } from "@mui/material";
 import Divider from "@mui/material/Divider";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { default as LocationIcon } from "@mui/icons-material/FmdGoodOutlined";
 import { default as BarChartIcon } from "@mui/icons-material/SignalCellularAltOutlined";
 import { default as EnergySavingsLeafIcon } from "@mui/icons-material/EnergySavingsLeafOutlined";
@@ -14,6 +14,7 @@ const Project = () => {
   const { projectId } = useParams();
 
   const project = projects.find((p) => p.id === parseInt(projectId));
+  const navigate = useNavigate();
 
   if (!project) {
     return <div className="text-xl text-red-700">Project not found!</div>;
@@ -52,6 +53,14 @@ const Project = () => {
 
   return (
     <div className="w-full pb-10">
+      <Chip
+        label="Back"
+        variant="outlined"
+        icon={<ArrowBackIcon />}
+        className="!absolute !left-4 !top-4 !w-28 !text-white !backdrop-blur"
+        onClick={() => navigate("/projects")}
+      />
+      
       <img
         src={project.image}
         alt=""

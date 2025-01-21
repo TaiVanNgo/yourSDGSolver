@@ -300,36 +300,115 @@ export const cashewTreeData = [
     baselineConditions: 8.3,
     rootBiomass: 0.25,
   },
+  // {
+  //   day: 8,
+  //   temperature: 29.7,
+  //   humidity: 74,
+  //   soilMoisture: 49.0,
+  //   precipitation: 4.3,
+  //   soilCarbonContent: 16.3,
+  //   biomassGrowth: 0.012,
+  //   leafAreaIndex: 1.65,
+  //   co2Flux: -14.8,
+  //   methane: 1.71,
+  //   nitrousOxide: 0.04,
+  //   gpsCoordinates: "10.775, 106.662",
+  //   baselineConditions: 8.35,
+  //   rootBiomass: 0.27,
+  // },
+  // {
+  //   day: 9,
+  //   temperature: 30.1,
+  //   humidity: 71,
+  //   soilMoisture: 46.7,
+  //   precipitation: 1.1,
+  //   soilCarbonContent: 16.4,
+  //   biomassGrowth: 0.013,
+  //   leafAreaIndex: 1.7,
+  //   co2Flux: -15.0,
+  //   methane: 1.7,
+  //   nitrousOxide: 0.04,
+  //   gpsCoordinates: "10.775, 106.662",
+  //   baselineConditions: 8.4,
+  //   rootBiomass: 0.3,
+  // },
+];
+
+export const xAxisData = cashewTreeData.map((item) => item.day);
+
+export const weatherSeriesData = [
   {
-    day: 8,
-    temperature: 29.7,
-    humidity: 74,
-    soilMoisture: 49.0,
-    precipitation: 4.3,
-    soilCarbonContent: 16.3,
-    biomassGrowth: 0.012,
-    leafAreaIndex: 1.65,
-    co2Flux: -14.8,
-    methane: 1.71,
-    nitrousOxide: 0.04,
-    gpsCoordinates: "10.775, 106.662",
-    baselineConditions: 8.35,
-    rootBiomass: 0.27,
+    data: cashewTreeData.map((item) => item.temperature),
+    label: "Temperature (°C)",
+    color: "red",
   },
   {
-    day: 9,
-    temperature: 30.1,
-    humidity: 71,
-    soilMoisture: 46.7,
-    precipitation: 1.1,
-    soilCarbonContent: 16.4,
-    biomassGrowth: 0.013,
-    leafAreaIndex: 1.7,
-    co2Flux: -15.0,
-    methane: 1.7,
-    nitrousOxide: 0.04,
-    gpsCoordinates: "10.775, 106.662",
-    baselineConditions: 8.4,
-    rootBiomass: 0.3,
+    data: cashewTreeData.map((item) => item.humidity),
+    label: "Humidity (%)",
+    color: "blue",
+  },
+  {
+    data: cashewTreeData.map((item) => item.soilMoisture),
+    label: "Soil Moisture (%)",
+    color: "green",
+  },
+  {
+    data: cashewTreeData.map((item) => item.precipitation),
+    label: "Precipitation (mm)",
+    color: "purple",
+  },
+];
+
+export const plantGrowthSeriesData = [
+  {
+    data: cashewTreeData.map((item) => item.biomassGrowth),
+    label: "Biomass Growth (kg)",
+    color: "orange",
+  },
+  {
+    data: cashewTreeData.map((item) => item.leafAreaIndex),
+    label: "Leaf Area Index (LAI)",
+    color: "teal",
+  },
+  {
+    data: cashewTreeData.map((item) => item.rootBiomass),
+    label: "Root Biomass (kg)",
+    color: "brown",
+  },
+];
+
+export const carbonGreenhouseSeriesData = [
+  {
+    data: cashewTreeData.map((item) => item.soilCarbonContent),
+    label: "Soil Carbon Content (g/kg)",
+    color: "darkgreen",
+  },
+  {
+    data: cashewTreeData.map((item) => item.co2Flux),
+    label: "CO₂ Flux (g/m²/day)",
+    color: "gray",
+  },
+  {
+    data: cashewTreeData.map((item) => item.methane),
+    label: "Methane (CH₄) (ppm)",
+    color: "cyan",
+  },
+  {
+    data: cashewTreeData.map((item) => item.nitrousOxide),
+    label: "Nitrous Oxide (N₂O) (ppm)",
+    color: "pink",
+  },
+];
+
+export const baselineComparisonSeriesData = [
+  {
+    data: cashewTreeData.map((item) => item.baselineConditions),
+    label: "Baseline Conditions (kg C)",
+    color: "gold",
+  },
+  {
+    data: cashewTreeData.map((item) => item.rootBiomass),
+    label: "Root Biomass (kg)",
+    color: "brown",
   },
 ];
