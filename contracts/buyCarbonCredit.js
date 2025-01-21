@@ -1,138 +1,211 @@
-const { ApiPromise, WsProvider } = require('@polkadot/api');
-
-// Set up connection to Polkadot network
-async function setup() {
-  const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io'); // You can replace this with other RPC endpoints
-  const api = await ApiPromise.create({ provider: wsProvider });
-  return api;
-}
 const { ApiPromise, WsProvider, Keyring } = require('@polkadot/api');
-const { ethers } = require('ethers'); // Import ethers.js
+const { ContractPromise } = require('@polkadot/api-contract');
+const { ethers } = require('ethers');
 const detectEthereumProvider = require('@metamask/detect-provider');
+const Web3 = require('web3');
 const fs = require('fs');
 
-// Polkadot connection setup
+// Configuration
+const config = {
+  ethereum: {
+    contractAddress: "0xYourEthereumContractAddress",
+    abi: [
+      {
+        "constant": false,
+        "inputs": [{ "name": "amount", "type": "uint256" }],
+        "name": "buy",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function",
+      },
+    ],
+  },
+  moonbeam: {
+    rpcUrl: "https://rpc.api.moonbeam.network",
+    contractAddress: "0xYourMoonbeamContractAddress",
+    abi: [
+      {
+        "constant": false,
+        "inputs": [{ "name": "amount", "type": "uint256" }],
+        "name": "bridgeBuy",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function",
+      },
+    ],
+  },
+  polkadot: {
+    rpcUrl: "wss://westend-rpc.polkadot.io",
+    contractAddress: "0xYourPolkadotContractAddress",
+    abiPath: "./contract_abi.json",
+  },
+};
+
+// Polkadot Setup
 async function setupPolkadot() {
-  const wsProvider = new WsProvider('wss://westend-rpc.polkadot.io'); // Replace with your RPC endpoint
-  const api = await ApiPromise.create({ provider: wsProvider });
-  return api;
+  const wsProvider = new WsProvider(config.polkadot.rpcUrl);
+  return await ApiPromise.create({ provider: wsProvider });
 }
 
-// MetaMask wallet connection
-let provider, signer, contract;
-const contractAddress = "0xYourContractAddress"; // Replace with your contract address on Ethereum
-const abi = [
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "buy",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-];
-
-// Connect to MetaMask wallet
+// MetaMask Wallet Connection
 async function connectWallet() {
   try {
     const metaMaskProvider = await detectEthereumProvider();
+    if (!metaMaskProvider) throw new Error("MetaMask not detected!");
 
-    if (metaMaskProvider) {
-      provider = new ethers.providers.Web3Provider(metaMaskProvider);
-      signer = provider.getSigner();
-      contract = new ethers.Contract(contractAddress, abi, signer);
+    const provider = new ethers.providers.Web3Provider(metaMaskProvider);
+    const signer = provider.getSigner();
+    const accounts = await provider.listAccounts();
 
-      const accounts = await provider.listAccounts();
-      if (accounts.length > 0) {
-        document.getElementById("status").innerText = `Connected to ${accounts[0]}`;
-        document.getElementById("buyButton").disabled = false; // Enable buy button
-      } else {
-        document.getElementById("status").innerText = "Please connect your wallet";
-      }
-    } else {
-      document.getElementById("status").innerText = "MetaMask not detected!";
-    }
-  } catch (err) {
-    console.error(err);
-    document.getElementById("status").innerText = "Error connecting wallet!";
+    if (accounts.length === 0) throw new Error("No MetaMask accounts connected!");
+    return { provider, signer, accounts };
+  } catch (error) {
+    console.error(error.message);
+    document.getElementById("status").innerText = error.message;
   }
 }
 
-// Buy action using MetaMask (sending a transaction)
-async function buyTokens() {
+// Ethereum Buy Action
+async function buyTokensOnEthereum(signer) {
   try {
-    const amount = 1000; // The amount of tokens the user wants to buy
-    const tx = await contract.buy(amount, {
-      value: ethers.utils.parseEther("1.0"), // 1 ETH sent with transaction, adjust accordingly
+    const contract = new ethers.Contract(config.ethereum.contractAddress, config.ethereum.abi, signer);
+    const amount = 1000;
+    const tx = await contract.buy(amount, { value: ethers.utils.parseEther("1.0") });
+
+    console.log(`Ethereum transaction sent: ${tx.hash}`);
+    await tx.wait();
+    console.log(`Ethereum transaction confirmed: ${tx.hash}`);
+  } catch (error) {
+    console.error("Ethereum transaction failed:", error);
+  }
+}
+
+// Moonbeam Buy Action
+async function buyTokensOnMoonbeam(web3) {
+  try {
+    const accounts = await web3.eth.getAccounts();
+    const userAccount = accounts[0];
+    const contract = new web3.eth.Contract(config.moonbeam.abi, config.moonbeam.contractAddress);
+
+    const tx = await contract.methods.bridgeBuy(1000).send({ from: userAccount });
+    console.log("Moonbeam transaction confirmed:", tx);
+  } catch (error) {
+    console.error("Moonbeam transaction failed:", error);
+  }
+}
+
+// Polkadot Buy Action
+async function buyTokensOnPolkadot(api) {
+  try {
+    const keyring = new Keyring({ type: "sr25519" });
+    const sender = keyring.addFromUri("yourSenderPrivateKey");
+    const abi = JSON.parse(fs.readFileSync(config.polkadot.abiPath));
+    const contract = new ContractPromise(api, abi, config.polkadot.contractAddress);
+
+    const gasLimit = 1000000000;
+    const value = 1500;
+    const tx = contract.tx.buy({ gasLimit, value });
+
+    const { dispatchError, events } = await tx.signAndSend(sender);
+    if (dispatchError) throw new Error(dispatchError.toString());
+
+    events.forEach(({ event }) => console.log("Event:", event.toString()));
+    console.log("Polkadot transaction successful");
+  } catch (error) {
+    console.error("Polkadot transaction failed:", error);
+  }
+}
+
+// Additional Polkadot Functions (keeping all previous functions)
+const CONFIG = {
+  wsProviderUrl: "wss://westend-rpc.polkadot.io",
+  contractAddress: "5YourContractAddress",
+  abiPath: "./metadata.json",
+  senderSeed: "//Alice",
+  gasLimit: 1000000000,
+};
+
+async function setupPolkadot() {
+  const wsProvider = new WsProvider(CONFIG.wsProviderUrl);
+  const api = await ApiPromise.create({ provider: wsProvider });
+  return api;
+}
+
+async function buyTokens(api, amount) {
+  const keyring = new Keyring({ type: 'sr25519' });
+  const sender = keyring.addFromUri(CONFIG.senderSeed);
+
+  const abi = JSON.parse(fs.readFileSync(CONFIG.abiPath));
+  const contract = new ContractPromise(api, abi, CONFIG.contractAddress);
+
+  try {
+    const value = amount;
+    const { gasConsumed, result, events } = await contract.tx.buy({ gasLimit: CONFIG.gasLimit, value }).signAndSend(sender);
+
+    if (result.isErr) {
+      console.error("Transaction failed:", result.toHuman());
+      return;
+    }
+
+    console.log(`Gas consumed: ${gasConsumed}`);
+    events.forEach(({ event }) => {
+      console.log("Event:", event.toHuman());
     });
 
-    document.getElementById("status").innerText = `Transaction sent: ${tx.hash}`;
-
-    await tx.wait();
-    document.getElementById("status").innerText = `Transaction confirmed: ${tx.hash}`;
-  } catch (err) {
-    console.error(err);
-    document.getElementById("status").innerText = "Error buying tokens!";
+    console.log("Transaction successful!");
+  } catch (error) {
+    console.error("Error in buyTokens:", error);
   }
 }
 
-// Polkadot contract interaction for buying action
-async function buyActionPolkadot(api, contractAddress, senderAddress, price, amount) {
-  const keyring = new Keyring({ type: 'sr25519' });
-  const sender = keyring.addFromUri(senderAddress); // Replace with the sender's private key or address
+async function getBalance(api) {
+  const abi = JSON.parse(fs.readFileSync(CONFIG.abiPath));
+  const contract = new ContractPromise(api, abi, CONFIG.contractAddress);
 
-  const abi = JSON.parse(fs.readFileSync('./contract_abi.json')); // Replace with your ABI file for Polkadot contract
-  const contract = new ContractPromise(api, abi, contractAddress);
-
-  const gasLimit = 1000000000; // Set an appropriate gas limit
-  const value = amount; // Funds to send in the transaction (in smallest unit, like planck for Polkadot)
-  const tx = contract.tx.buy({ gasLimit, value });
-
-  const { dispatchError, events, result } = await tx.signAndSend(sender);
-
-  if (dispatchError) {
-    console.log('Transaction failed:', dispatchError.toString());
-    return;
+  try {
+    const { output } = await contract.query.getBalance(CONFIG.contractAddress, { gasLimit: CONFIG.gasLimit });
+    console.log("Contract balance:", output?.toHuman());
+  } catch (error) {
+    console.error("Error in getBalance:", error);
   }
-
-  console.log('Transaction successful:', result.toHuman());
-
-  // Watch for the event emitted by the contract (e.g., successful purchase)
-  events.forEach(({ event }) => {
-    console.log('Event:', event.toString());
-  });
 }
 
-// Main function to handle both Polkadot and Ethereum transactions
+async function getPrice(api) {
+  const abi = JSON.parse(fs.readFileSync(CONFIG.abiPath));
+  const contract = new ContractPromise(api, abi, CONFIG.contractAddress);
+
+  try {
+    const { output } = await contract.query.getPrice(CONFIG.contractAddress, { gasLimit: CONFIG.gasLimit });
+    console.log("Item price:", output?.toHuman());
+  } catch (error) {
+    console.error("Error in getPrice:", error);
+  }
+}
+
+// Main Function to execute all transactions
 async function main() {
   try {
     const api = await setupPolkadot();
-    const contractAddressPolkadot = '0xYourPolkadotContractAddress'; // Replace with your Polkadot contract address
-    const senderAddress = 'yourSenderAddress'; // Replace with the sender's address
-    const price = 1000; // Example price
-    const amount = 1500; // Example amount (should be >= price)
+    const { provider, signer } = await connectWallet();
+    const web3 = new Web3(config.moonbeam.rpcUrl);
 
-    // Connect wallet and perform Ethereum-based action (buy tokens)
-    await connectWallet();
+    // Perform transactions
+    await buyTokensOnEthereum(signer);
+    await buyTokensOnMoonbeam(web3);
+    await buyTokensOnPolkadot(api);
 
-    // Perform Polkadot-based buy action
-    await buyActionPolkadot(api, contractAddressPolkadot, senderAddress, price, amount);
+    // Additional Polkadot interactions
+    const amount = 1000000000;
+    await buyTokens(api, amount);
+    await getBalance(api);
+    await getPrice(api);
+
   } catch (error) {
-    console.error("Error in main:", error);
+    console.error("Error in main process:", error.message);
   }
 }
 
-// Button Event Listeners
-document.getElementById("connectWallet").addEventListener("click", connectWallet);
-document.getElementById("buyButton").addEventListener("click", buyTokens);
-
-// Call the main function to execute both actions
+// Execute Main
 main().catch(console.error);
-const fs = require('fs');
-

@@ -19,6 +19,11 @@ const data = {
 };
 
 // Step 1: Calculate carbon credits
+function calculateCarbonCredits(soilCarbonContent, biomassGrowth, co2Flux) {
+    const carbonCredits = soilCarbonContent * biomassGrowth * co2Flux;
+    return carbonCredits;
+}
+
 const carbonCredits = calculateCarbonCredits(data.soilCarbonContent, data.biomassGrowth, data.co2Flux);
 
 // Step 2: Tokenize Carbon Credits via Toucan
@@ -49,3 +54,33 @@ async function tokenizeAndVerify() {
 }
 
 tokenizeAndVerify();
+
+
+async function bridgeTokenizedCreditsToVerra(tokenId) {
+    try {
+        // Example of bridging process
+        const bridgeResult = await toucan.bridgeToVerra(tokenId);
+        console.log("Successfully bridged tokenized credits to Verra: ", bridgeResult);
+    } catch (error) {
+        console.error("Error bridging to Verra: ", error);
+    }
+}   
+
+// Example usage after tokenizing
+bridgeTokenizedCreditsToVerra('TOKEN_ID_FROM_TOUCAN');
+
+
+const hre = require("hardhat");
+
+async function main() {
+    const CarbonCredits = await hre.ethers.getContractFactory("CarbonCredits");
+    const carbonCredits = await CarbonCredits.deploy();
+    await carbonCredits.deployed();
+
+    console.log("CarbonCredits contract deployed to:", carbonCredits.address);
+}
+
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});

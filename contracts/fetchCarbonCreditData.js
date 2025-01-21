@@ -1,32 +1,37 @@
 const BigchainDB = require('bigchaindb-driver');
-const { Transaction } = BigchainDB;
 const axios = require('axios');  // For making HTTP requests
-const { vechain } = require('viem/chains');
-
-//this one is used to get the data from bigchaindb by transaction-id to calculate 
+const Web3 = require('web3');
 
 // BigchainDB setup
 const API_PATH = 'https://test.bigchaindb.com/api/v1/'; // Use your BigchainDB endpoint
 const conn = new BigchainDB.Connection(API_PATH);
 
 // Smart Contract ABI and address
-const contractABI = [...];  // Smart contract ABI for carbon credit contract
+const contractABI = [];  // Smart contract ABI for carbon credit contract
 const contractAddress = '0x...'; // Address of the deployed contract
 
-// Assuming you have Web3.js or Ethers.js initialized
+// Initialize Web3 provider
 const web3 = new Web3(window.ethereum);
 
 // Function to fetch carbon data from BigchainDB
 async function fetchCarbonData(transactionId) {
   try {
     const response = await axios.get(`${API_PATH}transactions/${transactionId}`);
-    const carbonData = response.data;
-    return carbonData;
+    return response.data;
   } catch (error) {
     console.error('Error fetching carbon data:', error);
+    return null;
   }
 }
 
+// Function to calculate CO2 sequestration (you need to define how to calculate it)
+function calculateCO2Sequestration(data) {
+  // Placeholder for your actual sequestration calculation logic
+  // Use the data (e.g., Soil_Carbon_Content, Biomass_Growth, CO2_Flux) to calculate
+  const { Soil_Carbon_Content, Biomass_Growth, CO2_Flux } = data;
+  const sequestration = Soil_Carbon_Content * Biomass_Growth * CO2_Flux;  // Example calculation
+  return sequestration;
+}
 
 // Function to process and submit data to smart contract
 async function submitCarbonData(transactionId) {
@@ -47,14 +52,10 @@ async function submitCarbonData(transactionId) {
       Soil_Carbon_Content,
       Biomass_Growth,
       CO2_Flux
-    } = carbonData.data; // Adjust based on your BigchainDB structure
+    } = carbonData.data.asset.data || carbonData.data;
 
-    // Step 3: Calculate the carbon sequestration based on this data
-    const carbonSequestration = calculateCarbonSequestration({
-      Temperature,
-      Humidity,
-      Soil_Moisture,
-      Precipitation,
+    // Step 3: Calculate the carbon sequestration
+    const carbonSequestration = calculateCO2Sequestration({
       Soil_Carbon_Content,
       Biomass_Growth,
       CO2_Flux
@@ -66,9 +67,8 @@ async function submitCarbonData(transactionId) {
 
     const contract = new web3.eth.Contract(contractABI, contractAddress);
     
-    // Assuming the contract has a minting function that accepts carbon sequestration data
     const result = await contract.methods
-      .mintCarbonCredits(userAccount, carbonSequestration)
+      .mintCarbonCredits(userAccount, carbonSequestration, 'project-123') // 'project-123' can be replaced with the actual project ID
       .send({ from: userAccount });
 
     console.log('Carbon credits minted:', result);
