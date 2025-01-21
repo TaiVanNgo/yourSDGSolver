@@ -5,6 +5,7 @@ import "./index.css";
 import ProjectList from "./pages/ProjectList";
 import Layout from "./pages/Layout";
 import Project from "./pages/Project";
+import FarmerDashboard from "./pages/FarmerDashboard";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
+      {
+        path: "/dashboard",
+        element: <FarmerDashboard />,
+      },
       {
         path: "/projects",
         element: <ProjectList />,
