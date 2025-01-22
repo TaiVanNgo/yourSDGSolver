@@ -12,16 +12,43 @@ import DataTable from "../components/DataTable";
 import { useAccount } from "wagmi";
 import { useState } from "react";
 import InvestmentModal from "../components/InvestmentModal";
+import Loading from "../components/Loading";
+import { useEffect } from "react";
 
 const Project = () => {
-  const { projectId } = useParams();
   const { isConnected } = useAccount();
   const navigate = useNavigate();
-
-  const project = projects.find((p) => p.id === parseInt(projectId));
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalToggle = (status) => setIsModalOpen(status);
+
+  const { projectId } = useParams(); // Get the project ID from the URL
+  const [project, setProject] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/projects/${projectId}`,
+        );
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setProject(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [projectId]);
+
+  if (loading) return <Loading />;
+  if (error) return <p>Err  or: {error}</p>;
 
   if (!project) {
     return <div className="text-xl text-red-700">Project not found!</div>;

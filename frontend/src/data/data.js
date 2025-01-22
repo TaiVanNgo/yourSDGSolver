@@ -36,6 +36,7 @@ export const projects = [
       infrastructure: "Improved irrigation and farming facilities",
     },
     coordinate: "11.741159, 106.955451",
+    availableCarbonCredit: 120,
     walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
