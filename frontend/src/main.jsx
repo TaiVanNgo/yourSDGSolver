@@ -13,6 +13,7 @@ import ConnectWallet from "./components/web3/ConnectWallet";
 import { SendTransaction } from "./components/web3/SendTransaction";
 import { RoleProvider } from "./context/RoleContext";
 import HomePage from "./pages/HomePage";
+import CarbonCreditInventory from "./pages/CarbonCreditInventory";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,6 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <ProjectList />,
-        
       },
       {
         path: "/projects/:projectId",
@@ -47,6 +47,11 @@ const router = createBrowserRouter([
       {
         path: "/transaction",
         element: <SendTransaction />,
+      },
+
+      {
+        path: "/inventory",
+        element: <CarbonCreditInventory />,
       },
     ],
   },

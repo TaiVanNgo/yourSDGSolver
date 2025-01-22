@@ -17,6 +17,10 @@ const navigateLink = [
     name: "Dashboard",
     route: "/dashboard",
   },
+  {
+    name: "Inventory",
+    route: "/inventory",
+  },
 ];
 
 const Header = () => {
@@ -40,7 +44,8 @@ const Header = () => {
 
         {navigateLink.map(
           (item, index) =>
-            (item.name !== "Dashboard" || role === "seller") && (
+            ((item.name !== "Dashboard" || role === "seller") &&
+            (item.name !== "Inventory" || role === "buyer")) && (
               <Link
                 key={index}
                 to={item.route}

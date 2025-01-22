@@ -16,12 +16,12 @@ import { BarChart } from "@mui/x-charts";
 const FarmerData = [
   {
     title: "Farm Area",
-    content: "50 hectares",
+    content: "2 hectares",
     icon: <TreeIcon />,
   },
   {
     title: "Cashew Output",
-    content: "75,000 kg/year",
+    content: "6,000 kg/year",
     icon: <TrendIcon />,
   },
   {
@@ -31,7 +31,7 @@ const FarmerData = [
   },
   {
     title: "Carbon Credits Revenue",
-    content: "$15,000",
+    content: "$ 210",
     icon: <MoneyIcon />,
   },
 ];
@@ -86,14 +86,14 @@ const FarmerDashboard = () => {
               ]}
               series={[
                 {
-                  data: [1100, 1500, 1750, 2000, 2200, 2400], // Monthly profit values
-                  name: "Profit (USD)", // Series label
+                  data: [150, 180, 160, 250, 300, 320],
+                  name: "Profit (USD)",
                 },
               ]}
               fullWidth
               height={300}
-              legend={{ position: "bottom" }} // Optional legend at the bottom
-              grid={{ horizontal: true }} // Optional horizontal grid lines
+              legend={{ position: "bottom" }}
+              grid={{ horizontal: true }}
             />
           </CardContent>
         </Card>

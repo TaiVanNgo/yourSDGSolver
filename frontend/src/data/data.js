@@ -11,32 +11,31 @@ export const projects = [
     image:
       "https://t3.ftcdn.net/jpg/01/93/94/46/360_F_193944671_fj2BYdTNbw9m0FHkpGOOGbxN14tMrkXM.jpg",
     description:
-      "The Song Giang hydropower project will produce enough energy to power 74,000 households of Vietnam and will offset approximately 110,000 tonnes of carbon emissions annually. It will also create 250 jobs during construction and sustain 50 long-term jobs during operation, contributing to economic growth in the region.",
-    location: "Khanh Hoa Province, Vietnam",
+      "The cashew farming project in Binh Phuoc promotes sustainable agricultural practices and generates significant carbon offsets. It supports the livelihoods of local farmers while reducing environmental degradation.",
+    location: "Binh Phuoc Province, Vietnam",
     annualEmissionReduction: "110,000 tonnes CO2e",
-    technologyType: "Hydroelectric",
+    technologyType: "Sustainable Agriculture",
     projectStatus: "Operational",
     verificationStandard: "VCS (Verified Carbon Standard)",
     startDate: "January 1, 2020",
     environmentalImpact: {
       keyBenefits: [
-        "Reduction of greenhouse gas emissions",
-        "Promotion of renewable energy adoption",
-        "Conservation of natural resources",
-        "Improvement of local air quality",
+        "Reduction of greenhouse gas emissions from traditional farming",
+        "Promotion of sustainable cashew farming practices",
+        "Conservation of soil and water resources",
+        "Improvement of local biodiversity",
       ],
       description:
-        "This project significantly contributes to reducing carbon emissions and promoting sustainable energy production in Vietnam. By generating clean hydroelectric power, it helps to decrease reliance on fossil fuels and supports the country's transition to renewable energy sources.",
+        "This project contributes to reducing carbon emissions and supports sustainable farming in Binh Phuoc Province, helping farmers transition to environmentally friendly agricultural practices.",
     },
     socialAndEconomicBenefits: {
       jobCreation:
-        "250 jobs during construction and 50 long-term operational jobs",
-      energyAccess: "Powering approximately 74,000 households in Vietnam",
-      economicGrowth:
-        "Contributing to local economic development in Khanh Hoa Province",
-      infrastructure: "Improving energy infrastructure and grid stability",
+        "250 jobs during the initial setup and 50 long-term operational jobs",
+      energyAccess: "Supporting renewable agricultural energy projects",
+      economicGrowth: "Enhancing the income of local farming communities",
+      infrastructure: "Improved irrigation and farming facilities",
     },
-    coordinate: "12.372347154404071, 108.83777955092572",
+    coordinate: "11.741159, 106.955451",
     walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
@@ -51,8 +50,8 @@ export const projects = [
     image:
       "https://special.vietnamplus.vn/wp-content/uploads/2023/11/vna_potal_binh_phuoc_gia_thu_mua_hat_dieu_tuoi_dau_vu_thap_6593906-2.jpg",
     description:
-      "This project focuses on conserving the rainforest in Madre De Dios, Peru, protecting endangered wildlife and supporting local communities. By preventing deforestation, it offsets 150,000 tonnes of carbon annually while providing sustainable jobs and education opportunities to locals.",
-    location: "Madre De Dios, Peru",
+      "This forest conservation project in Binh Phuoc focuses on preserving cashew plantations and surrounding forests, protecting biodiversity, and supporting local communities. By preventing deforestation, it offsets 150,000 tonnes of carbon annually.",
+    location: "Binh Phuoc Province, Vietnam",
     annualEmissionReduction: "150,000 tonnes CO2e",
     technologyType: "Forest Conservation",
     projectStatus: "Operational",
@@ -60,21 +59,21 @@ export const projects = [
     startDate: "March 15, 2018",
     environmentalImpact: {
       keyBenefits: [
-        "Protection of biodiversity and natural habitats",
-        "Reduction of deforestation and forest degradation",
-        "Improved carbon sequestration",
+        "Protection of natural forest ecosystems and biodiversity",
+        "Reduction of deforestation and degradation in Binh Phuoc",
+        "Improved carbon sequestration through sustainable practices",
       ],
       description:
-        "This project helps preserve one of the most biodiverse regions in the world by reducing deforestation and supporting sustainable livelihoods for the local community.",
+        "This project helps conserve critical forest areas in Binh Phuoc Province, protecting wildlife and reducing carbon emissions caused by deforestation.",
     },
     socialAndEconomicBenefits: {
-      jobCreation: "150 direct jobs in forest monitoring and protection",
-      energyAccess: "Protecting biodiversity in Madre De Dios region",
+      jobCreation: "150 direct jobs in forest conservation and management",
+      energyAccess: "Protecting biodiversity in forest areas",
       economicGrowth:
-        "Improving local incomes through sustainable forest management",
-      infrastructure: "Strengthening forest monitoring infrastructure",
+        "Improving local livelihoods through sustainable forestry practices",
+      infrastructure: "Strengthening forest management infrastructure",
     },
-    coordinate: "-11.736835578908277, -70.61616650391893",
+    coordinate: "11.729501, 106.972542",
     walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
@@ -88,29 +87,29 @@ export const projects = [
     sdg: 3,
     image: "https://visimex.com/wp-content/uploads/2023/04/IMG_5426-scaled.jpg",
     description:
-      "The Nansha Hydro Power Project generates clean energy for Yunnan Province, reducing the region’s dependence on coal-based power plants. This project offsets 200,000 tonnes of CO2 annually while promoting sustainable energy infrastructure in rural areas.",
-    location: "Yunnan Province, China",
+      "This clean energy project in Binh Phuoc promotes the use of solar-powered water pumps for cashew farms. By replacing diesel-powered pumps, it offsets 200,000 tonnes of CO2 annually and reduces dependence on fossil fuels.",
+    location: "Binh Phuoc Province, Vietnam",
     annualEmissionReduction: "200,000 tonnes CO2e",
-    technologyType: "Hydroelectric",
+    technologyType: "Solar Energy for Agriculture",
     projectStatus: "Operational",
     verificationStandard: "CDM (Clean Development Mechanism)",
     startDate: "July 10, 2015",
     environmentalImpact: {
       keyBenefits: [
-        "Reduction of coal usage",
-        "Lower air pollution levels",
-        "Support for renewable energy infrastructure",
+        "Reduction of diesel fuel usage in farming operations",
+        "Lower air pollution levels in rural communities",
+        "Promotion of renewable energy use in agriculture",
       ],
       description:
-        "This project provides sustainable energy alternatives, helping China transition to a cleaner energy future while reducing dependence on fossil fuels.",
+        "This project enables sustainable farming in Binh Phuoc through solar-powered water pumps, reducing emissions and improving farming efficiency.",
     },
     socialAndEconomicBenefits: {
-      jobCreation: "200 temporary jobs during construction",
-      energyAccess: "Supplying electricity to over 100,000 households",
-      economicGrowth: "Boosting rural economic development",
-      infrastructure: "Modernizing energy grids in rural Yunnan Province",
+      jobCreation: "200 temporary jobs during installation",
+      energyAccess: "Providing renewable energy solutions for farming",
+      economicGrowth: "Boosting rural farming economy in Binh Phuoc",
+      infrastructure: "Upgrading agricultural water management systems",
     },
-    coordinate: "35.86420105930839, 104.19771642521893",
+    coordinate: "11.756715, 106.936957",
     walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
@@ -125,36 +124,35 @@ export const projects = [
     image:
       "https://binhphuoc.gov.vn/uploads/binhphuoc/news/2022_03/img_0270.jpg",
     description:
-      "This project in Brazil aims to replace SF6, a potent greenhouse gas, with alternative cover gases in magnesium production. By implementing innovative solutions, it prevents the emission of 50,000 tonnes of CO2-equivalent annually and enhances environmental sustainability in industrial processes.",
-    location: "Minas Gerais, Brazil",
+      "This innovative project in Binh Phuoc replaces chemical fertilizers with organic compost made from cashew shells, reducing harmful emissions and improving soil health. The project offsets 50,000 tonnes of CO2 annually.",
+    location: "Binh Phuoc Province, Vietnam",
     annualEmissionReduction: "50,000 tonnes CO2e",
-    technologyType: "Industrial Gas Replacement",
+    technologyType: "Organic Composting",
     projectStatus: "Operational",
     verificationStandard: "ISO 14064",
     startDate: "May 25, 2019",
     environmentalImpact: {
       keyBenefits: [
-        "Reduction of industrial greenhouse gas emissions",
-        "Improved safety in magnesium production processes",
+        "Reduction of greenhouse gas emissions from fertilizer use",
+        "Promotion of sustainable farming practices",
+        "Improved soil quality and fertility",
       ],
       description:
-        "By replacing SF6 with safer alternatives, this project reduces harmful emissions and enhances the sustainability of industrial practices.",
+        "By converting cashew shells into compost, this project reduces carbon emissions and enhances sustainable farming in Binh Phuoc.",
     },
     socialAndEconomicBenefits: {
-      jobCreation:
-        "50 operational jobs for workers in gas replacement facilities",
-      energyAccess: "Reducing industrial emissions impacting local air quality",
-      economicGrowth:
-        "Enhancing the industrial economy with sustainable practices",
-      infrastructure: "Improving industrial facilities for safer production",
+      jobCreation: "50 jobs in compost production facilities",
+      energyAccess: "Reducing energy dependency on chemical production",
+      economicGrowth: "Improving farming yields and farmer incomes",
+      infrastructure: "Enhancing organic farming infrastructure",
     },
-    coordinate: "-17.098778207283498, -43.812541392719346",
+    coordinate: "11.742821, 106.911834",
     walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
   {
     id: 5,
     projectType: "CARBON OFFSETTING",
-    title: "Dieu Co Tham",
+    title: "Co Tham Hat Dieu",
     countryFlag:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1200px-Flag_of_Vietnam.svg.png",
     countryName: "Vietnam",
@@ -163,30 +161,29 @@ export const projects = [
     image:
       "https://visimex.com/wp-content/uploads/2023/04/IMG_6669-1-scaled.jpg",
     description:
-      "The 100 MW Solar Project in Rajasthan provides clean and renewable energy to over 80,000 homes in India. This project significantly reduces the country’s reliance on fossil fuels, offsetting 180,000 tonnes of carbon annually while promoting sustainable economic growth.",
-    location: "Rajasthan, India",
+      "The solar-powered drying project in Binh Phuoc improves cashew processing efficiency, reducing post-harvest losses and fossil fuel consumption. It offsets 180,000 tonnes of CO2 annually while enhancing processing capacity.",
+    location: "Binh Phuoc Province, Vietnam",
     annualEmissionReduction: "180,000 tonnes CO2e",
-    technologyType: "Solar Power",
+    technologyType: "Solar Drying Technology",
     projectStatus: "Operational",
     verificationStandard: "CORSIA",
     startDate: "April 1, 2021",
     environmentalImpact: {
       keyBenefits: [
-        "Reduction of fossil fuel dependency",
-        "Support for clean energy initiatives",
-        "Lower greenhouse gas emissions",
+        "Reduction of fossil fuel use in cashew processing",
+        "Promotion of clean energy in the agricultural sector",
+        "Minimized post-harvest losses",
       ],
       description:
-        "This solar power project supports India's renewable energy goals by reducing reliance on coal-based power plants and promoting sustainable electricity generation.",
+        "This project leverages solar energy for cashew drying, reducing emissions and improving the quality of processed nuts in Binh Phuoc.",
     },
     socialAndEconomicBenefits: {
       jobCreation: "300 jobs during construction",
-      energyAccess: "Providing electricity to 80,000 homes",
-      economicGrowth:
-        "Stimulating the local economy through infrastructure development",
-      infrastructure: "Expanding solar energy grids in Rajasthan",
+      energyAccess: "Providing sustainable energy for cashew drying",
+      economicGrowth: "Supporting local cashew processing businesses",
+      infrastructure: "Expanding solar energy grids for processing facilities",
     },
-    coordinate: "20.593668579251084, 78.96321117791021",
+    coordinate: "11.750426, 106.951634",
     walletAddress: "0xfF648D16c9D434A69Fb572AfC02C9B988d61e877",
   },
 ];

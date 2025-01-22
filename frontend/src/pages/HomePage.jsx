@@ -5,9 +5,9 @@ import { default as ArrowIcon } from "@mui/icons-material/ArrowForwardOutlined";
 import { default as MoneyIcon } from "@mui/icons-material/AttachMoneyOutlined";
 import { default as PeopleIcon } from "@mui/icons-material/PeopleAltOutlined";
 import { default as CertIcon } from "@mui/icons-material/VerifiedUserOutlined";
-import { default as ChartIcon } from "@mui/icons-material/PeopleAltOutlined";
-import NatureIcon from "@mui/icons-material/Nature";
+import { default as ChartIcon } from "@mui/icons-material/BarChartOutlined";
 import { default as QuestionIcon } from "@mui/icons-material/HelpOutline";
+import NatureIcon from "@mui/icons-material/Nature";
 
 const FarmerCardContent = [
   {
