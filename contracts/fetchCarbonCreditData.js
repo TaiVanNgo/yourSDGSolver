@@ -24,14 +24,6 @@ async function fetchCarbonData(transactionId) {
   }
 }
 
-// Function to calculate CO2 sequestration (you need to define how to calculate it)
-function calculateCO2Sequestration(data) {
-  // Placeholder for your actual sequestration calculation logic
-  // Use the data (e.g., Soil_Carbon_Content, Biomass_Growth, CO2_Flux) to calculate
-  const { Soil_Carbon_Content, Biomass_Growth, CO2_Flux } = data;
-  const sequestration = Soil_Carbon_Content * Biomass_Growth * CO2_Flux;  // Example calculation
-  return sequestration;
-}
 
 // Function to process and submit data to smart contract
 async function submitCarbonData(transactionId) {
@@ -44,22 +36,23 @@ async function submitCarbonData(transactionId) {
     }
 
     // Step 2: Extract relevant data for carbon sequestration
+    const assetData = carbonData?.data?.asset?.data || carbonData?.data || dataArray;
+    if (!assetData) {
+        throw new Error("Invalid data structure: Unable to extract asset data.");
+    }
+    
     const {
-      Temperature,
-      Humidity,
-      Soil_Moisture,
-      Precipitation,
-      Soil_Carbon_Content,
-      Biomass_Growth,
-      CO2_Flux
-    } = carbonData.data.asset.data || carbonData.data;
-
+        Temperature,
+        Humidity,
+        Soil_Moisture,
+        Precipitation,
+        Soil_Carbon_Content,
+        Biomass_Growth,
+        CO2_Flux
+    } = assetData;
+  
     // Step 3: Calculate the carbon sequestration
-    const carbonSequestration = calculateCO2Sequestration({
-      Soil_Carbon_Content,
-      Biomass_Growth,
-      CO2_Flux
-    });
+    const carbonSequestration = calculateCarbonSequestrationVerra(dataArray);
 
     // Step 4: Tokenize carbon credits via the smart contract
     const accounts = await web3.eth.getAccounts();

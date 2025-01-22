@@ -74,6 +74,7 @@ const dataArray = [
   },
 ];
 
+
 // Function implementation as defined earlier
 function calculateCarbonSequestrationVerra(dataArray) {
   const GWP_CH4 = 25; // Global Warming Potential for Methane

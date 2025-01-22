@@ -3,6 +3,23 @@ const { ToucanSdk } = require('@toucanprotocol/toucan-sdk');
 // Initialize Web3 and Toucan SDK
 const toucan = new ToucanSdk(web3);
 
+async function getSensorInfo(){
+  try{
+    const response = await fetch('', {
+      method: 'GET',
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify({}),
+    });
+    const result = await response.json();
+    return result
+  }
+  catch(error){
+    console.error('Error verifying carbon credits:', error);
+    return null;
+  }
+}
+
+
 async function verifyCarbonCredits(carbonCredits) {
   try {
     // Example of verification using Verra (API)
@@ -30,7 +47,7 @@ async function bridgeTokenizedCreditsToVerra(tokenId) {
 }
 
 
-// ----------------------------------
+// ---------------------------------- //
 
 
 async function processCarbonCredits(transactionId) {

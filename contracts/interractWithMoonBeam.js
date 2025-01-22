@@ -18,13 +18,14 @@ const data = {
     co2Flux: -12.4
 };
 
-// Step 1: Calculate carbon credits
-function calculateCarbonCredits(soilCarbonContent, biomassGrowth, co2Flux) {
-    const carbonCredits = soilCarbonContent * biomassGrowth * co2Flux;
-    return carbonCredits;
-}
+// // Step 1: Calculate carbon credits
+// function calculateCarbonCredits(soilCarbonContent, biomassGrowth, co2Flux) {
+//     const carbonCredits = soilCarbonContent * biomassGrowth * co2Flux;
+//     return carbonCredits;
+// }
 
-const carbonCredits = calculateCarbonCredits(data.soilCarbonContent, data.biomassGrowth, data.co2Flux);
+// const carbonCredits = calculateCarbonCredits(data.soilCarbonContent, data.biomassGrowth, data.co2Flux);
+
 
 // Step 2: Tokenize Carbon Credits via Toucan
 async function tokenizeAndVerify() {

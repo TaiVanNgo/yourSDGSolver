@@ -6,6 +6,7 @@ mod buy_contract {
     pub struct BuyContract {
         price: Balance,   // Price of the item in the contract
         balance: Balance, // Total balance of the contract
+        seller: AccountId,   // The target wallet (seller's address)
     }
 
     impl BuyContract {
@@ -15,6 +16,7 @@ mod buy_contract {
             Self {
                 price,
                 balance: 0,
+                seller,
             }
         }
 
@@ -48,6 +50,26 @@ mod buy_contract {
         pub fn set_price(&mut self, new_price: Balance) {
             self.price = new_price;
         }
+
+
+            /// A payable function to buy an item. Sends funds directly to the seller.
+        #[ink(message, payable)]
+        pub fn buy(&mut self, amount: Balance) {
+        let transferred_value = self.env().transferred_value();
+        assert!(transferred_value >= self.price * amount, "Insufficient funds.");
+
+        // Send funds directly to the seller
+        self.env()
+            .transfer(self.seller, transferred_value)
+            .expect("Transfer failed.");
+
+        // Emit event for the purchase
+        self.env().emit_event(Purchase {
+            buyer: self.env().caller(),
+            amount: transferred_value,
+        });
+    }
+
     }
 
     /// Event emitted when a purchase is made.
