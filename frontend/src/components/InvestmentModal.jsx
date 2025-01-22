@@ -17,6 +17,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import { parseEther } from "viem";
+import { sepolia } from "viem/chains";
 
 const style = {
   position: "absolute",
@@ -39,6 +40,7 @@ const conversionRates = {
 
 const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
   const { isConnected } = useAccount();
+
   const {
     data: hash,
     error,
@@ -46,15 +48,11 @@ const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
     sendTransaction,
   } = useSendTransaction();
 
-  console.log("hash", hash);
-
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
+      chainId: sepolia.id,
       hash,
     });
-
-  console.log("is confirming", isConfirming);
-  console.log("is confirm", isConfirmed);
 
   const [quantity, setQuantity] = useState(1);
   const price = parseFloat(priceString.replace(/[^\d.]/g, ""));
@@ -153,14 +151,14 @@ const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
             disabled={isPending}
             onClick={() => handleClick()}
           >
-            {isConfirming ? (
+            {isPending || isConfirming ? (
               <CircularProgress size={24} sx={{ color: "white" }} />
             ) : (
               "Invest Now"
             )}
           </Button>
           {isConfirmed && (
-            <div className="text-green-500">
+            <div className="text-green-500 font-semibold">
               Your transaction was successful
             </div>
           )}

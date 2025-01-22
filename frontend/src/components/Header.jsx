@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { WalletButton } from "./web3/WalletButton";
-import { useAccount  } from "wagmi";
+import { useAccount } from "wagmi";
 import { Avatar } from "@mui/material";
 
 const navigateLink = [
@@ -21,7 +21,6 @@ const navigateLink = [
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { isConnected } = useAccount();
 
   return (
@@ -34,15 +33,18 @@ const Header = () => {
           onClick={() => navigate("/")}
         />
 
-        {navigateLink.map((item, index) => (
-          <Link
-            key={index}
-            to={item.route}
-            className={`text-lg transition-colors hover:text-textColor/80 ${location.pathname === item.route ? "text-textColor" : "text-textColor/60"}`}
-          >
-            {item.name}
-          </Link>
-        ))}
+        {navigateLink.map(
+          (item, index) =>
+            item.name !== "Dashboard" && (
+              <Link
+                key={index}
+                to={item.route}
+                className={`text-lg transition-colors hover:text-textColor/80 ${location.pathname === item.route ? "text-textColor" : "text-textColor/60"}`}
+              >
+                {item.name}
+              </Link>
+            ),
+        )}
       </div>
       <div className="flex items-center gap-4">
         {isConnected && <p className="text-green-400">Connected</p>}

@@ -1,9 +1,36 @@
 import { Button } from "@mui/material";
-import { useConnect, useDisconnect } from "wagmi";
+import { useState } from "react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 export function WalletButton({ isConnected }) {
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
+  const [role, setRole] = useState(null);
+
+  const login = async (walletAddress) => {
+    console.log("address from request", walletAddress);
+    try {
+      const response = await fetch("http://localhost:3000/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ walletAddress }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Login error:", data.error);
+        return;
+      }
+
+      setRole(data.role); // Store the user's role
+      console.log("Login successful:", data.role);
+    } catch (error) {
+      console.error("Error during login request:", error);
+    }
+  };
 
   if (!connectors.length) {
     return <div>No wallet connector available.</div>;
@@ -15,8 +42,13 @@ export function WalletButton({ isConnected }) {
     try {
       if (isConnected) {
         await disconnect();
+        setRole(null); // Clear role on disconnect
       } else {
-        await connect({ connector: metaMaskConnector });
+        const connection = await connect({ connector: metaMaskConnector });
+        console.log("connection", connection);
+        const walletAddress = connection.account; // Get wallet address
+        console.log("test", walletAddress);
+        // await login(address);
       }
     } catch (error) {
       console.error("Wallet connection error:", error);
