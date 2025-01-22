@@ -10,7 +10,7 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useAccount,
   useSendTransaction,
@@ -38,7 +38,14 @@ const conversionRates = {
   USDC: 1.02,
 };
 
-const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
+const InvestmentModal = ({
+  open,
+  handleClose,
+  priceString,
+  walletAddress,
+  projectId,
+  availableCarbonCredit,
+}) => {
   const { isConnected } = useAccount();
 
   const {
@@ -57,15 +64,16 @@ const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
   const [quantity, setQuantity] = useState(1);
   const price = parseFloat(priceString.replace(/[^\d.]/g, ""));
   const roundedPrice = Math.round(price * quantity * 1000) / 1000; // Rounds to 3 decimal places
-
   const [currency, setCurrency] = useState("USD");
+  const [transactionProcessed, setTransactionProcessed] = useState(false);
+
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
 
   const convertedPrice = roundedPrice * conversionRates[currency];
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!isConnected) {
       alert("Please connect the meta mask");
       return;
@@ -79,7 +87,45 @@ const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
     const to = walletAddress;
     const value = convertedPrice;
 
-    sendTransaction({ to, value: parseEther(value.toString()) });
+    try {
+      await sendTransaction({ to, value: parseEther(value.toString()) });
+    } catch (err) {
+      console.error("Transaction failed:", err);
+    }
+  };
+
+  useEffect(() => {
+    const processTransaction = async () => {
+      if (isConfirmed && !transactionProcessed) {
+        const userId = "679084d58c491fafcd886329"; // Replace with dynamic user ID
+        await buyRequest(userId, projectId, quantity);
+      }
+    };
+
+    processTransaction();
+  }, [isConfirmed, transactionProcessed, projectId, quantity]);
+
+  const buyRequest = async (userId, projectId, creditsToBuy) => {
+    const apiUrl = "http://localhost:3000/api/user/buy";
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, projectId, creditsToBuy }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log("Purchase logged in backend:", data);
+      setTransactionProcessed(true);
+    } catch (err) {
+      console.error("Error posting purchase to backend:", err);
+    }
   };
 
   return (
@@ -101,17 +147,24 @@ const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
               value={quantity}
               inputProps={{
                 min: 1,
+                max: availableCarbonCredit,
                 step: 1,
               }}
               InputProps={{
                 style: { textAlign: "center" },
               }}
-              onChange={(e) => setQuantity(Number(e.target.value))}
+              onChange={(e) => {
+                const value = Math.max(
+                  1,
+                  Math.min(availableCarbonCredit, Number(e.target.value)),
+                );
+                setQuantity(value);
+              }}
             />
           </div>
           <div className="flex w-full items-center gap-20">
             <Typography variant="body1">Price</Typography>
-            <Typography variant="body1">${roundedPrice} per credit</Typography>
+            <Typography variant="body1">${price} per credit</Typography>
           </div>
 
           <div className="flex w-full items-center gap-10">
@@ -158,7 +211,7 @@ const InvestmentModal = ({ open, handleClose, priceString, walletAddress }) => {
             )}
           </Button>
           {isConfirmed && (
-            <div className="text-green-500 font-semibold">
+            <div className="font-semibold text-green-500">
               Your transaction was successful
             </div>
           )}

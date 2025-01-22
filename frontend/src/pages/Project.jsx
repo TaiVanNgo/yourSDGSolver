@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { projects } from "../data/data";
-import { Button, Chip, Modal } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { default as LocationIcon } from "@mui/icons-material/FmdGoodOutlined";
@@ -48,7 +47,7 @@ const Project = () => {
   }, [projectId]);
 
   if (loading) return <Loading />;
-  if (error) return <p>Err  or: {error}</p>;
+  if (error) return <p>Err or: {error}</p>;
 
   if (!project) {
     return <div className="text-xl text-red-700">Project not found!</div>;
@@ -204,6 +203,9 @@ const Project = () => {
               {project.price}
             </div>
             <span className="text-sm text-textColor">per carbon credit</span>
+            <p className="text-sm text-textColor">
+              Remaining Carbon Credits: {project.availableCarbonCredits}
+            </p>
           </div>
 
           <Button
@@ -220,6 +222,8 @@ const Project = () => {
         priceString={project.price}
         walletAddress={project.walletAddress}
         handleClose={() => handleModalToggle(false)}
+        projectId={projectId}
+        availableCarbonCredit={project.availableCarbonCredits}
       />
     </div>
   );

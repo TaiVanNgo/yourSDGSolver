@@ -3,59 +3,37 @@ import { default as CarbonIcon } from "@mui/icons-material/Co2Outlined";
 import { default as TickIcon } from "@mui/icons-material/DoneOutlined";
 import { default as CloseIcon } from "@mui/icons-material/CloseOutlined";
 import { useNavigate } from "react-router-dom";
-
-const inventoryData = [
-  {
-    label: "Total Credits",
-    value: "10",
-  },
-  {
-    label: "Total Value",
-    value: "$225.00",
-  },
-  {
-    label: "Available Credits",
-    value: "7",
-  },
-  {
-    label: "Used Credits",
-    value: "3",
-  },
-];
-
-const carbonCreditData = [
-  {
-    id: 5,
-    title: "Co Tham Hat Dieu",
-    credits: 10,
-    price: 50,
-    status: true,
-  },
-  {
-    id: 4,
-    title: "Dieu Nha Chu Tam",
-    credits: 3,
-    price: 15,
-    status: false,
-  },
-  {
-    id: 1,
-    title: "Trai Dieu Tong Hop",
-    credits: 8,
-    price: 64,
-    status: true,
-  },
-  {
-    id: 2,
-    title: "Dieu Thay Phuoc",
-    credits: 8,
-    price: 64,
-    status: false,
-  },
-];
+import { useEffect, useState } from "react";
+import Loading from "../components/Loading";
 
 const CarbonCreditInventory = () => {
+  const [inventory, setInventory] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const fetchInventory = async () => {
+    const userId = "679084d58c491fafcd886329";
+    const apiUrl = `http://localhost:3000/api/user/inventory?userId=${userId}`;
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setInventory(data); // Store inventory in state
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log("inventory", inventory);
+  useEffect(() => {
+    fetchInventory();
+  }, []);
 
   const handleClick = (id) => {
     if (!id) return;
@@ -63,6 +41,62 @@ const CarbonCreditInventory = () => {
     navigate(`/projects/${id}`);
   };
 
+  const inventoryData = [
+    {
+      label: "Total Credits",
+      value: inventory ? inventory.totalCreditNumber : 0,
+    },
+    {
+      label: "Total Value",
+      value: inventory ? inventory.totalPrice : 0,
+    },
+    {
+      label: "Available Credits",
+      value: inventory
+        ? inventory.totalCreditNumber - inventory.usedCreditNumber
+        : 0,
+    },
+    {
+      label: "Used Credits",
+      value: inventory ? inventory.usedCreditNumber : 0,
+    },
+  ];
+
+  const carbonCreditData = inventory?.projects;
+
+  // const carbonCreditData = [
+  //   {
+  //     id: 5,
+  //     title: "Co Tham Hat Dieu",
+  //     credits: 10,
+  //     price: 50,
+  //     status: true,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Dieu Nha Chu Tam",
+  //     credits: 3,
+  //     price: 15,
+  //     status: false,
+  //   },
+  //   {
+  //     id: 1,
+  //     title: "Trai Dieu Tong Hop",
+  //     credits: 8,
+  //     price: 64,
+  //     status: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Dieu Thay Phuoc",
+  //     credits: 8,
+  //     price: 64,
+  //     status: false,
+  //   },
+  // ];
+
+  if (loading) return <Loading />;
+  if (error) return <p>Error: {error}</p>;
   return (
     <div className="px-20 py-10">
       <h1 className="mb-6 text-center text-3xl font-bold">
@@ -102,15 +136,15 @@ const CarbonCreditInventory = () => {
       </Card>
 
       <div className="mt-8 grid grid-cols-3 gap-4">
-        {carbonCreditData.map((item, index) => (
+        {carbonCreditData.map((item) => (
           <Card
             sx={{ px: 1 }}
             className="cursor-pointer !rounded-lg"
-            key={index}
+            key={item.id}
             onClick={() => handleClick(item.id)}
           >
             <CardHeader
-              title={item.title}
+              title={item.name}
               sx={{
                 ".MuiCardHeader-title": {
                   fontWeight: "bold",
@@ -128,11 +162,11 @@ const CarbonCreditInventory = () => {
               <div className="flex justify-between">
                 <div className="flex gap-1">
                   <CarbonIcon sx={{}} />
-                  <p>5 Credits</p>
+                  <p>{item.credits} Credits</p>
                 </div>
                 <p>
-                  <span className="text-green-500">$</span>
-                  {item.price}
+                  <span className="text-green-500">$ </span>
+                  {item.totalPrice.replace("$", "")}
                 </p>
               </div>
 

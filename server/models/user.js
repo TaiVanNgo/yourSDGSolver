@@ -2,32 +2,41 @@ const Mongoose = require("mongoose");
 const { Schema } = Mongoose;
 
 // Sub-schema for Projects
-const UserProjectSchema = new Schema({
-  id: {
-    type: String,
-    required: true,
+const UserProjectSchema = new Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+    },
+    credits: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: Boolean,
+      required: true,
+    },
   },
-  credits: {
-    type: Number,
-    required: true,
-  },
-  status: {
-    type: Boolean,
-    required: true,
-  }
-}, { _id: false });
+  { _id: false }
+);
 
-// Sub-schema for Carbon Credit
-const CarbonCreditSchema = new Schema({
-  projects: {
-    type: [UserProjectSchema],
-    required: true,
+const CarbonCreditSchema = new Schema(
+  {
+    projects: {
+      type: [UserProjectSchema],
+      required: true,
+    },
+    totalCreditNumber: {
+      type: Number,
+      required: true,
+    },
+    usedCreditNumber: {
+      type: Number,
+      required: true,
+    },
   },
-  totalCreditNumber: {
-    type: Number,
-    required: true,
-  }
-}, { _id: false });
+  { _id: false }
+);
 
 // Main User schema
 const UserSchema = new Schema({
@@ -46,14 +55,14 @@ const UserSchema = new Schema({
   role: {
     type: String,
     default: "buyer",
-    enum: ["buyer", "seller"]
+    enum: ["buyer", "seller"],
   },
   totalCredits: {
-    type: Number
+    type: Number,
   },
   carbonCredit: {
-    type: CarbonCreditSchema
-  }
+    type: CarbonCreditSchema,
+  },
 });
 
 module.exports = Mongoose.model("User", UserSchema);
