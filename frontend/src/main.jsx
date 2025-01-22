@@ -11,6 +11,8 @@ import { config } from "../config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ConnectWallet from "./components/web3/ConnectWallet";
 import { SendTransaction } from "./components/web3/SendTransaction";
+import { RoleProvider } from "./context/RoleContext";
+import HomePage from "./pages/HomePage";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        // element: <fa>,
+        element: <HomePage />,
       },
       {
         path: "/dashboard",
@@ -30,6 +32,7 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <ProjectList />,
+        
       },
       {
         path: "/projects/:projectId",
@@ -51,10 +54,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </WagmiProvider>
+    <RoleProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </WagmiProvider>
+    </RoleProvider>
   </StrictMode>,
 );

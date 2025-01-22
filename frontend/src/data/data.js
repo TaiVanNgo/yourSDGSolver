@@ -2,14 +2,14 @@ export const projects = [
   {
     id: 1,
     projectType: "CARBON OFFSETTING",
-    title: "Song Giang 2 Hydro Power Project",
+    title: "Trai Dieu Tong Hop",
     countryFlag:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1200px-Flag_of_Vietnam.svg.png",
     countryName: "Vietnam",
-    price: "€1.83",
+    price: "$1.83",
     sdg: 4,
     image:
-      "https://climatetrade.s3.amazonaws.com/media/projects/main_imagesong-giang-2-hydro-power-project_JiJt5gn.webp",
+      "https://t3.ftcdn.net/jpg/01/93/94/46/360_F_193944671_fj2BYdTNbw9m0FHkpGOOGbxN14tMrkXM.jpg",
     description:
       "The Song Giang hydropower project will produce enough energy to power 74,000 households of Vietnam and will offset approximately 110,000 tonnes of carbon emissions annually. It will also create 250 jobs during construction and sustain 50 long-term jobs during operation, contributing to economic growth in the region.",
     location: "Khanh Hoa Province, Vietnam",
@@ -42,14 +42,14 @@ export const projects = [
   {
     id: 2,
     projectType: "CARBON OFFSETTING",
-    title: "Redd+ Project In Nut Concessions In Madre De Dios",
+    title: "Dieu Thay Phuoc",
     countryFlag:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Peru_%28state%29.svg/1280px-Flag_of_Peru_%28state%29.svg.png",
-    countryName: "Peru",
-    price: "€9.15",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1200px-Flag_of_Vietnam.svg.png",
+    countryName: "Vietnam",
+    price: "$9.15",
     sdg: 8,
     image:
-      "https://climatetrade.s3.amazonaws.com/media/projects/main_imageredd-project-in-nut-concessions-in-madre-de-dios-peru_jAEPnSx.webp",
+      "https://special.vietnamplus.vn/wp-content/uploads/2023/11/vna_potal_binh_phuoc_gia_thu_mua_hat_dieu_tuoi_dau_vu_thap_6593906-2.jpg",
     description:
       "This project focuses on conserving the rainforest in Madre De Dios, Peru, protecting endangered wildlife and supporting local communities. By preventing deforestation, it offsets 150,000 tonnes of carbon annually while providing sustainable jobs and education opportunities to locals.",
     location: "Madre De Dios, Peru",
@@ -80,14 +80,13 @@ export const projects = [
   {
     id: 3,
     projectType: "CARBON OFFSETTING",
-    title: "Nansha Hydro Power Project In Yunnan Province",
+    title: "Hat Dieu Bon Mua",
     countryFlag:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/800px-Flag_of_the_People%27s_Republic_of_China.svg.png",
-    countryName: "China",
-    price: "€3.36",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1200px-Flag_of_Vietnam.svg.png",
+    countryName: "Vietnam",
+    price: "$3.36",
     sdg: 3,
-    image:
-      "https://climatetrade.s3.amazonaws.com/media/projects/main_imagenansha-hydro-power-project-in-yunnan-province-china_1uUpBVA.webp",
+    image: "https://visimex.com/wp-content/uploads/2023/04/IMG_5426-scaled.jpg",
     description:
       "The Nansha Hydro Power Project generates clean energy for Yunnan Province, reducing the region’s dependence on coal-based power plants. This project offsets 200,000 tonnes of CO2 annually while promoting sustainable energy infrastructure in rural areas.",
     location: "Yunnan Province, China",
@@ -117,14 +116,14 @@ export const projects = [
   {
     id: 4,
     projectType: "CARBON OFFSETTING",
-    title: "Conversion Of SF6 To Alternative Cover Gas",
+    title: "Dieu Nha Chu Tam",
     countryFlag:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Brazil.svg/2560px-Flag_of_Brazil.svg.png",
-    countryName: "Brazil",
-    price: "€1.34",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1200px-Flag_of_Vietnam.svg.png",
+    countryName: "Vietnam",
+    price: "$1.34",
     sdg: 4,
     image:
-      "https://climatetrade.s3.amazonaws.com/media/projects/main_imageconversion-of-sf6-to-the-alternative-cover-gas-so2-at-rima-magnesium-production_x4fPnKg.webp",
+      "https://binhphuoc.gov.vn/uploads/binhphuoc/news/2022_03/img_0270.jpg",
     description:
       "This project in Brazil aims to replace SF6, a potent greenhouse gas, with alternative cover gases in magnesium production. By implementing innovative solutions, it prevents the emission of 50,000 tonnes of CO2-equivalent annually and enhances environmental sustainability in industrial processes.",
     location: "Minas Gerais, Brazil",
@@ -155,14 +154,14 @@ export const projects = [
   {
     id: 5,
     projectType: "CARBON OFFSETTING",
-    title: "100 MW Solar Project In Rajasthan - Corsia Eligible",
+    title: "Dieu Co Tham",
     countryFlag:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_India.svg/800px-Flag_of_India.svg.png",
-    countryName: "India",
-    price: "€4.03",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1200px-Flag_of_Vietnam.svg.png",
+    countryName: "Vietnam",
+    price: "$4.03",
     sdg: 3,
     image:
-      "https://climatetrade.s3.amazonaws.com/media/projects/main_image100-mw-solar-project-in-rajasthan-corsia-elegible_3A4WMZt.webp",
+      "https://visimex.com/wp-content/uploads/2023/04/IMG_6669-1-scaled.jpg",
     description:
       "The 100 MW Solar Project in Rajasthan provides clean and renewable energy to over 80,000 homes in India. This project significantly reduces the country’s reliance on fossil fuels, offsetting 180,000 tonnes of carbon annually while promoting sustainable economic growth.",
     location: "Rajasthan, India",

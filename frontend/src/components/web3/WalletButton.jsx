@@ -1,11 +1,19 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useRole } from "../../context/RoleContext";
 
-export function WalletButton({ isConnected }) {
+export function WalletButton() {
+  const { address, isConnected } = useAccount();
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
-  const [role, setRole] = useState(null);
+  const { role, setRole } = useRole(null);
+
+  useEffect(() => {
+    if (address && isConnected) {
+      login(address);
+    }
+  }, [address, isConnected]);
 
   const login = async (walletAddress) => {
     console.log("address from request", walletAddress);
@@ -44,11 +52,7 @@ export function WalletButton({ isConnected }) {
         await disconnect();
         setRole(null); // Clear role on disconnect
       } else {
-        const connection = await connect({ connector: metaMaskConnector });
-        console.log("connection", connection);
-        const walletAddress = connection.account; // Get wallet address
-        console.log("test", walletAddress);
-        // await login(address);
+        await connect({ connector: metaMaskConnector });
       }
     } catch (error) {
       console.error("Wallet connection error:", error);
