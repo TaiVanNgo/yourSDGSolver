@@ -11,7 +11,7 @@ import { GoogleMap } from "../components/GoogleMap";
 import DataTable from "../components/DataTable";
 import { useAccount } from "wagmi";
 import { useState } from "react";
-import InvestProjectModal from "../components/InvestProjectModal";
+import InvestmentModal from "../components/InvestmentModal";
 
 const Project = () => {
   const { projectId } = useParams();
@@ -188,8 +188,10 @@ const Project = () => {
           </Button>
         </div>
       </div>
-      <InvestProjectModal
+      <InvestmentModal
         open={isModalOpen}
+        priceString={project.price}
+        walletAddress={project.walletAddress}
         handleClose={() => handleModalToggle(false)}
       />
     </div>

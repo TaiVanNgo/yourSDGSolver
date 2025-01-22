@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const csv = require('csvtojson');
+const csv = require("csvtojson");
 const cors = require("cors");
 const setupDB = require("./utils/db");
 const routes = require("./routes");
@@ -10,15 +10,15 @@ const app = express();
 app.use(cors());
 setupDB();
 
-const driver = require('bigchaindb-driver');
+const driver = require("bigchaindb-driver");
 const BIGCHAINDB_URL = process.env.BIGCHAINDB_URL;
 const bigchaindb = new driver.Connection(BIGCHAINDB_URL);
 const alice = new driver.Ed25519Keypair();
-const csvFilePath = 'verra_carbon_data.csv';
+const csvFilePath = "verra_carbon_data.csv";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(routes);
+app.use("/api", routes);
 
 // Check if the connection is successful
 // bigchaindb.getBlock(1)
@@ -28,7 +28,6 @@ app.use(routes);
 //     .catch(err => {
 //         console.error('Failed to connect to BigchainDB:', err);
 //     });
-
 
 // Function to post a transaction
 // const postTransaction = async (data) => {

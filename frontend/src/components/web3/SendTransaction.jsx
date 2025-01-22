@@ -18,6 +18,7 @@ export function SendTransaction() {
     sendTransaction({ to, value: parseEther(value) });
   }
 
+
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
       hash,
