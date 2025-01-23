@@ -5,16 +5,21 @@ import { default as CloseIcon } from "@mui/icons-material/CloseOutlined";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
+import { useRole } from "../context/RoleContext";
 
 const CarbonCreditInventory = () => {
+  const { id } = useRole();
+
   const [inventory, setInventory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const fetchInventory = async () => {
-    const userId = "679084d58c491fafcd886329";
-    const apiUrl = `http://localhost:3000/api/user/inventory?userId=${userId}`;
+    if (!id) return; // Do nothing if id is not yet available
+
+    console.log("Fetching inventory for user ID:", id);
+    const apiUrl = `http://localhost:3000/api/user/inventory?userId=${id}`;
 
     try {
       const response = await fetch(apiUrl);
@@ -30,10 +35,12 @@ const CarbonCreditInventory = () => {
       setLoading(false);
     }
   };
+
   console.log("inventory", inventory);
+  
   useEffect(() => {
     fetchInventory();
-  }, []);
+  }, [id]);
 
   const handleClick = (id) => {
     if (!id) return;
@@ -63,37 +70,6 @@ const CarbonCreditInventory = () => {
   ];
 
   const carbonCreditData = inventory?.projects;
-
-  // const carbonCreditData = [
-  //   {
-  //     id: 5,
-  //     title: "Co Tham Hat Dieu",
-  //     credits: 10,
-  //     price: 50,
-  //     status: true,
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Dieu Nha Chu Tam",
-  //     credits: 3,
-  //     price: 15,
-  //     status: false,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Trai Dieu Tong Hop",
-  //     credits: 8,
-  //     price: 64,
-  //     status: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Dieu Thay Phuoc",
-  //     credits: 8,
-  //     price: 64,
-  //     status: false,
-  //   },
-  // ];
 
   if (loading) return <Loading />;
   if (error) return <p>Error: {error}</p>;

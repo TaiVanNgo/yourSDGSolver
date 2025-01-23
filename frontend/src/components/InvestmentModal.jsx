@@ -18,6 +18,7 @@ import {
 } from "wagmi";
 import { parseEther } from "viem";
 import { sepolia } from "viem/chains";
+import { useRole } from "../context/RoleContext";
 
 const style = {
   position: "absolute",
@@ -47,6 +48,8 @@ const InvestmentModal = ({
   availableCarbonCredit,
 }) => {
   const { isConnected } = useAccount();
+  const { id } = useRole();
+
 
   const {
     data: hash,
@@ -97,13 +100,12 @@ const InvestmentModal = ({
   useEffect(() => {
     const processTransaction = async () => {
       if (isConfirmed && !transactionProcessed) {
-        const userId = "679084d58c491fafcd886329"; // Replace with dynamic user ID
-        await buyRequest(userId, projectId, quantity);
+        await buyRequest(id, projectId, quantity);
       }
     };
 
     processTransaction();
-  }, [isConfirmed, transactionProcessed, projectId, quantity]);
+  }, [isConfirmed, transactionProcessed, projectId, quantity, id]);
 
   const buyRequest = async (userId, projectId, creditsToBuy) => {
     const apiUrl = "http://localhost:3000/api/user/buy";

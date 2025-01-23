@@ -28,9 +28,10 @@ const Header = () => {
   const location = useLocation();
   const { isConnected } = useAccount();
 
-  const { role, setRole } = useRole();
+  const { role, setRole, id } = useRole();
 
   console.log("from header", role);
+  console.log("id", id);
 
   return (
     <div className="bg-background/95 flex w-full items-center justify-between border-b px-10 py-2 shadow-xl backdrop-blur">
@@ -44,8 +45,8 @@ const Header = () => {
 
         {navigateLink.map(
           (item, index) =>
-            ((item.name !== "Dashboard" || role === "seller") &&
-            (item.name !== "Inventory" || role === "buyer")) && (
+            (item.name !== "Dashboard" || role === "seller") &&
+            (item.name !== "Inventory" || role === "buyer") && (
               <Link
                 key={index}
                 to={item.route}

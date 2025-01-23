@@ -7,7 +7,7 @@ export function WalletButton() {
   const { address, isConnected } = useAccount();
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
-  const { role, setRole } = useRole(null);
+  const { role, setRole, id, setId } = useRole(null);
 
   useEffect(() => {
     if (address && isConnected) {
@@ -32,7 +32,8 @@ export function WalletButton() {
         console.error("Login error:", data.error);
         return;
       }
-
+      
+      setId(data.id);
       setRole(data.role); // Store the user's role
       console.log("Login successful:", data.role);
     } catch (error) {
