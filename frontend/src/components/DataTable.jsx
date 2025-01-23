@@ -6,46 +6,66 @@ import {
   TableRow,
   TableBody,
   Paper,
+  Button,
 } from "@mui/material";
-import { cashewTreeData } from "../data/data";
-
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useState } from "react";
+import Loading from "./Loading";
 const DataTable = () => {
+  const [transactionIds, setTransactionIds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const fetchTransactionIds = async () => {
+    const apiUrl = "http://localhost:3000/api/transaction/view";
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setTransactionIds(data); // Assuming the API response is the array of IDs
+    } catch (err) {
+      console.error("Error fetching transaction IDs:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactionIds();
+  }, []);
+
+  if (loading) return <Loading />;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Day</TableCell>
-            <TableCell align="center">Temperature (°C)</TableCell>
-            <TableCell align="center">Humidity (%)</TableCell>
-            <TableCell align="center">Soil Moisture (%)</TableCell>
-            <TableCell align="center">Precipitation (mm)</TableCell>
-            <TableCell align="center">Soil Carbon Content (g/kg)</TableCell>
-            <TableCell align="center">Biomass Growth (kg)</TableCell>
-            <TableCell align="center">Leaf Area Index (LAI)</TableCell>
-            <TableCell align="center">CO₂ Flux (g/m²/day)</TableCell>
-            <TableCell align="center">Methane (ppm)</TableCell>
-            <TableCell align="center">Nitrous Oxide (ppm)</TableCell>
-            <TableCell align="center">Baseline Conditions (kg C)</TableCell>
-            <TableCell align="center">Root Biomass (kg)</TableCell>
+            <TableCell align="center">Transaction ID</TableCell>
+            <TableCell align="center">View Details</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {cashewTreeData.map((row) => (
-            <TableRow key={row.day}>
-              <TableCell>{row.day}</TableCell>
-              <TableCell align="center">{row.temperature}</TableCell>
-              <TableCell align="center">{row.humidity}</TableCell>
-              <TableCell align="center">{row.soilMoisture}</TableCell>
-              <TableCell align="center">{row.precipitation}</TableCell>
-              <TableCell align="center">{row.soilCarbonContent}</TableCell>
-              <TableCell align="center">{row.biomassGrowth}</TableCell>
-              <TableCell align="center">{row.leafAreaIndex}</TableCell>
-              <TableCell align="center">{row.co2Flux}</TableCell>
-              <TableCell align="center">{row.methane}</TableCell>
-              <TableCell align="center">{row.nitrousOxide}</TableCell>
-              <TableCell align="center">{row.baselineConditions}</TableCell>
-              <TableCell align="center">{row.rootBiomass}</TableCell>
+          {transactionIds.map((id) => (
+            <TableRow key={id}>
+              <TableCell align="center">{id}</TableCell>
+              <TableCell align="center">
+                <Button
+                  variant="outlined"
+                  className="text-blue-500 underline transition-colors duration-200 hover:text-blue-700"
+                  size="small"
+                  onClick={() => navigate(`/transaction/${id}`)}
+                >
+                  View Details
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

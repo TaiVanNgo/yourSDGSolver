@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RoleProvider } from "./context/RoleContext";
 import HomePage from "./pages/HomePage";
 import CarbonCreditInventory from "./pages/CarbonCreditInventory";
+import TableDetails from "./components/TableDetails";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/projects/:projectId",
         element: <Project />,
+      },
+      {
+        path: "/transaction/:transactionId",
+        element: <TableDetails />,
       },
       {
         path: "/inventory",
