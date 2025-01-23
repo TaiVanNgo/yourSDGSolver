@@ -23,7 +23,7 @@ const FilterMenu = () => {
     projectKinds.map(() => false), // Initialize all checkboxes as unchecked
   );
 
-  console.log(checkedStates);
+
   const handleToggle = (index) => {
     const newCheckedStates = [...checkedStates];
     newCheckedStates[index] = !newCheckedStates[index];

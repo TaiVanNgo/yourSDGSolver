@@ -28,10 +28,7 @@ const Header = () => {
   const location = useLocation();
   const { isConnected } = useAccount();
 
-  const { role, setRole, id } = useRole();
-
-  console.log("from header", role);
-  console.log("id", id);
+  const { role } = useRole();
 
   return (
     <div className="bg-background/95 flex w-full items-center justify-between border-b px-10 py-2 shadow-xl backdrop-blur">

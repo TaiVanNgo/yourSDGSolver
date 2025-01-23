@@ -16,7 +16,6 @@ export function WalletButton() {
   }, [address, isConnected]);
 
   const login = async (walletAddress) => {
-    console.log("address from request", walletAddress);
     try {
       const response = await fetch("http://localhost:3000/api/user/login", {
         method: "POST",
@@ -32,7 +31,7 @@ export function WalletButton() {
         console.error("Login error:", data.error);
         return;
       }
-      
+
       setId(data.id);
       setRole(data.role); // Store the user's role
       console.log("Login successful:", data.role);

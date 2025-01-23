@@ -18,7 +18,6 @@ const CarbonCreditInventory = () => {
   const fetchInventory = async () => {
     if (!id) return; // Do nothing if id is not yet available
 
-    console.log("Fetching inventory for user ID:", id);
     const apiUrl = `http://localhost:3000/api/user/inventory?userId=${id}`;
 
     try {
@@ -36,8 +35,6 @@ const CarbonCreditInventory = () => {
     }
   };
 
-  console.log("inventory", inventory);
-  
   useEffect(() => {
     fetchInventory();
   }, [id]);

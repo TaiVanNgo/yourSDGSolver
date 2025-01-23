@@ -50,7 +50,6 @@ const InvestmentModal = ({
   const { isConnected } = useAccount();
   const { id } = useRole();
 
-
   const {
     data: hash,
     error,
@@ -123,7 +122,7 @@ const InvestmentModal = ({
       }
 
       const data = await response.json();
-      console.log("Purchase logged in backend:", data);
+
       setTransactionProcessed(true);
     } catch (err) {
       console.error("Error posting purchase to backend:", err);
