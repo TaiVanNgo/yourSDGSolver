@@ -7,27 +7,13 @@ const csv = require("csvtojson");
 const BIGCHAINDB_URL = process.env.BIGCHAINDB_URL;
 const bigchaindb = new driver.Connection(BIGCHAINDB_URL);
 const alice = new driver.Ed25519Keypair();
-const csvFilePath = "./../../verra_carbon_data.csv";
-
-// const setupBigchainDB = async () => {
-//     bigchaindb.getBlock(1)
-//         .then(block => {
-//             console.log('Successfully connected to BigchainDB:', block);
-//         })
-//         .catch(err => {
-//             console.error('Failed to connect to BigchainDB:', err);
-//         });
-// }
+const csvFilePath = "verra_carbon_data.csv";
+let curr_ids = [];
 
 // Function to post a transaction
 const postTransaction = async (data) => {
-  const assetdata = {
-    data: data,
-  };
-
-  const metadata = {
-    timestamp: new Date().toISOString(),
-  };
+  const assetdata = { data };
+  const metadata = { timestamp: new Date().toISOString() };
 
   const txCreate = driver.Transaction.makeCreateTransaction(
     assetdata,
@@ -55,48 +41,56 @@ const postTransaction = async (data) => {
   }
 };
 
+// Endpoint to add sensor data from a CSV file
 router.get("/add-sensordata", async (req, res) => {
-  // Read the CSV file and process each row
-  csv()
-    .fromFile(csvFilePath)
-    .then((jsonObj) => {
-      jsonObj.forEach(async (data) => {
+  try {
+    const jsonObj = await csv().fromFile(csvFilePath); // Convert CSV to JSON
+
+    // Use Promise.all to handle asynchronous operations for all rows
+    const ids = await Promise.all(
+      jsonObj.map(async (data) => {
         try {
-          await postTransaction(data);
+          return await postTransaction(data); // Post transaction and return ID
         } catch (err) {
           console.error("Error processing row:", err);
+          return null; // Return null for failed transactions
         }
-      });
-    })
-    .catch((err) => {
-      console.error("Error converting CSV to JSON:", err);
-    });
+      })
+    );
+
+    // Filter out null values and update `curr_ids`
+    curr_ids = ids.filter((id) => id !== null);
+    res.status(200).json({ message: "Transactions processed", ids: curr_ids });
+  } catch (err) {
+    console.error("Error processing sensor data:", err);
+    res.status(500).json({ message: "Error processing sensor data", error: err.message });
+  }
 });
 
-router.get("/:id", async (req, res) => {
+// Endpoint to view all transaction IDs
+router.get("/view", async (req, res) => {
+  try {
+    res.json(curr_ids);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching transaction IDs", error: err.message });
+  }
+});
+
+// Endpoint to view a transaction by ID
+router.get("/view/id/:id", async (req, res) => {
   const transactionId = req.params.id;
+  console.log("Fetching transaction ID:", transactionId);
   try {
     const transaction = await bigchaindb.getTransaction(transactionId);
     res.json(transaction);
   } catch (err) {
+    console.error("Error fetching transaction:", err);
     res
       .status(500)
       .json({ message: "Error fetching transaction", error: err.message });
   }
 });
 
-router.get("/ids", async (req, res) => {
-  try {
-    const ids = await Transaction.find();
-    console.log(ids);
-    res.json(ids);
-  } catch (err) {
-    err.log();
-    res
-      .status(500)
-      .json({ message: "Error fetching transaction ids", error: err.message });
-  }
-});
-
-// module.exports = setupBigchainDB;
 module.exports = router;
