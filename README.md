@@ -20,6 +20,12 @@ This application is designed to bridge the gap between cashew farmers and buyers
 
 ---
 
+### 🛠 Tech Stack
+
+Here’s an overview of the technologies used to build the platform:
+
+![Tech Stack Diagram](/images/TechStackDiagram.png "Tech Stack Diagram")
+
 ## ✨ **Features**
 
 ### For Farmers:

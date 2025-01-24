@@ -128,7 +128,7 @@ const CarbonCreditInventory = () => {
             />
             <div className="flex items-center justify-between px-4">
               <Chip label="Carbon Offsetting" size="small" />
-              <p className="text-xs text-textColor">Purchased: 2023-06-15</p>
+              <p className="text-xs text-textColor">Purchased: 2025-01-23</p>
             </div>
 
             <CardContent className="!space-y-4">
